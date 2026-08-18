@@ -175,4 +175,4 @@ To make the bootcamp feel like one continuous journey rather than 5 disjointed w
 
 ---
 
-*Prepared by: SIC Head of Data Analysis | Science in Code Community*
+*Prepared for: Science in Code Community*
