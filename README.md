@@ -1,212 +1,178 @@
-[Excel_Development_Guide.md](https://github.com/user-attachments/files/31162260/Excel_Development_Guide.md)
-# 📗 TechNova Excel Development Guide — Day 1 & Day 2
-
-> **SIC Data Analysis Bootcamp | Day 1: Foundations & Excel Mastery | Day 2: Statistics & Business Metrics**  
-> **Workbook Reference:** `TechNova_Excel.xlsx` (5-Sheet Architecture)  
-> **Target Audience:** Instructors, Teaching Assistants, and Bootcamp Students
+[README.md](https://github.com/user-attachments/files/31162272/README.md)
+# 🚀 TechNova Retail & Customer Churn
+### SIC Bootcamp — End-to-End Data Analysis Project
 
 ---
 
-## 📌 1. Project Overview & Business Context
+## 📖 The Business Problem
 
-**TechNova Retail** is an omnichannel consumer tech and electronics retailer experiencing rapid sales growth but facing unexplained margin fluctuations and rising customer churn. 
+**TechNova** is a global e-commerce electronics retailer operating across 6 cities in Egypt. Recently, the company has noticed:
+- 📉 A significant **drop in profitability** across certain product categories
+- 🚪 A **high rate of customer churn** (~40% of customers have stopped purchasing)
+- 🎯 No data-driven system to **predict** which customers are at risk
 
-This guide walks you step-by-step through transforming **5,000 rows of raw, messy transactional records** into an executive-ready, interactive Excel Sales & Churn Dashboard.
-
-### 🎯 Key Learning Objectives:
-1. **Data Cleaning & Integrity:** Standardizing casing, resolving typos, parsing mixed date formats, and filling missing financial values.
-2. **Dynamic Financial Modeling:** Calculating realized revenue, COGS, gross profit, and individual order margins.
-3. **Statistical Analysis & Outlier Detection:** Computing Central Tendency (Mean vs. Median), Spread (StdDev, Variance), Quartiles, and IQR outlier boundaries.
-4. **Pivot Table Mastery:** Summarizing thousands of records by Category, Timeline, Geography, and Customer Lifetime Value.
-5. **Interactive Dashboard Design:** Building KPI cards, dynamic Pivot Charts, and multi-slicer synchronization.
+The CEO has tasked the data team to:
+1. Clean and standardize the raw transaction data
+2. Perform statistical analysis to identify anomalies and KPIs
+3. Query the relational database for deep business insights
+4. Build automated, interactive BI dashboards for executives
+5. Develop a Machine Learning model to predict churn before it happens
+6. Deploy the model as a web application for the marketing team
 
 ---
 
-## 🗂️ 2. Workbook Architecture (5-Sheet Structure)
+## 🗓️ Bootcamp Day Mapping
 
-The workbook `TechNova_Excel.xlsx` follows professional financial and BI spreadsheet design principles, separating data layers from calculation and presentation layers:
+This project serves as the **unified case study** across all 5 technical days of the SIC Bootcamp:
 
-```text
-TechNova_Excel.xlsx
-├── 1. Raw Data          # Unaltered messy source data (5,000 transaction rows)
-├── 2. Cleaned Data      # Sanitized table with calculated financial metrics (A:T)
-├── 3. Pivot Analysis    # 4 dedicated summary Pivot Tables for multi-angle reporting
-├── 4. KPI Summary       # Formula-driven KPI scorecard & statistical benchmarks
-└── 5. Dashboard         # Executive visual interface with KPI cards, charts & slicers
+| Day | Topic | Deliverable | Key Skills |
+|-----|-------|-------------|------------|
+| **Day 1** | Foundations & Excel | `TechNova_Excel.xlsx` | Data cleaning, PROPER/TRIM, IF, XLOOKUP, Pivot Tables, Charts, Slicers |
+| **Day 2** | Statistics & Metrics | `TechNova_Excel.xlsx` (KPI sheet) | Mean, Median, Mode, IQR, Z-scores, AOV, Churn Rate, Profit Margin |
+| **Day 3** | SQL for Data Analysis | `TechNova_Queries.sql` | SELECT, WHERE, GROUP BY, JOINs, CTEs, Window Functions, CASE |
+| **Day 4** | Business Intelligence | Power BI Dashboards | Star Schema, DAX, Time Intelligence, Interactive Dashboards |
+| **Day 5** | Python & ML | `TechNova_Python_EDA.ipynb` + `streamlit_app.py` | Pandas, Seaborn, Feature Engineering, Logistic Regression, Streamlit |
+| **Day 6** | Hackathon | Team presentations | Full pipeline: Clean → Analyze → Visualize → Present |
+
+---
+
+## 📂 Project Structure
+
+```
+SIC_Bootcamp_TechNova_Project/
+│
+├── data/
+│   ├── dataset_raw.csv              # 5,000-row synthetic dataset with intentional messy data
+│   └── dataset_cleaned.csv          # Pre-cleaned version with Revenue & Profit calculated
+│
+├── day1_2_excel/
+│   └── TechNova_Excel.xlsx          # 5 sheets: Raw Data, Cleaned Data, Pivot Analysis, KPIs, Dashboard
+│   └── Excel_Development_Guide.md   # Step-by-step instructions for Excel
+│
+├── day3_sql/
+│   └── TechNova_Queries.sql         # 7 queries covering SELECT, JOINs, CTEs, Window Functions, CASE
+│
+├── day4_bi/
+│   ├── TechNova_PowerBI_V1.pbix     # Power BI Initial version
+│   ├── TechNova_PowerBI_V2.pbix     # Power BI Advanced version
+│   └── BI_Development_Guide.md      # Step-by-step instructions for Power BI
+│
+├── day5_python_ml/
+│   ├── TechNova_Python_EDA.ipynb    # Jupyter Notebook: EDA, Feature Engineering, Model Training
+│   ├── streamlit_app.py             # Web app for real-time churn prediction
+│   └── models/                      # Contains trained Logistic Regression model and scaler
+│
+├── scripts/
+│   └── Project Generation Files/    # Python scripts used to generate the project data and structure
+│
+├── README.md                        # This file
+└── requirements.txt                 # Python dependencies
 ```
 
 ---
 
-## 🧹 3. Step-by-Step Data Cleaning (Sheet: `2. Cleaned Data`)
+## 🧪 Dataset Schema
 
-Import the messy dataset from `1. Raw Data` into `2. Cleaned Data` and apply the following cleaning functions:
+The raw dataset simulates a **denormalized view** of 4 relational tables:
 
-| # | Target Column | Problem Identified in Raw Data | Excel Formula / Solution | Cleaned Example |
-|---|---------------|--------------------------------|--------------------------|-----------------|
-| **1** | `FullName` | Inconsistent casing (`CUSTOMER_0`, `customer_0`) & extra spaces | `=PROPER(TRIM('1. Raw Data'!B2))` | `Customer_0` |
-| **2** | `Age` | Impossible outlier ages (`-5`, `180`) | `=IF(OR(C2<18, C2>100), MEDIAN($C$2:$C$5001), C2)` | `35` |
-| **3** | `Category` | Typos and abbreviations (`Elec`, `elect`) | `=IF(OR(L2="Elec", L2="elect"), "Electronics", L2)` | `Electronics` |
-| **4** | `Cost` | Missing values (nulls) | `=IF(ISBLANK('1. Raw Data'!N2), MEDIAN($N$2:$N$5001), '1. Raw Data'!N2)` | `$334.36` |
-| **5** | `Discount` | Blank cells for orders without discounts | `=IF(ISBLANK('1. Raw Data'!P2), 0.0, '1. Raw Data'!P2)` | `0.00%` |
-| **6** | `OrderDate` | Mixed formats (`MM/DD/YYYY` vs `DD-MM-YYYY`) | `=DATEVALUE(...)` or **Data → Text to Columns** (Date: MDY) | `2023-02-08` |
+### Customers (Dimension)
+| Column | Type | Notes |
+|--------|------|-------|
+| `CustomerID` | INT | Primary Key (1000-2500) |
+| `FullName` | TEXT | ⚠️ Messy: inconsistent casing, extra spaces |
+| `Age` | INT | ⚠️ Messy: some negative values or >100 |
+| `City` | TEXT | Cairo, Alexandria, Giza, Mansoura, Luxor, Aswan |
+| `JoinDate` | DATE | ⚠️ Messy: mixed formats (MM/DD/YYYY and DD-MM-YYYY) |
+| `Churn` | BINARY | Target variable: 1 = Churned, 0 = Active |
 
-### 🧮 Financial Calculations Added (Columns S & T):
+### Products (Dimension)
+| Column | Type | Notes |
+|--------|------|-------|
+| `ProductID` | INT | Primary Key (101-149) |
+| `ProductName` | TEXT | Format: "Product_XXX" |
+| `Category` | TEXT | ⚠️ Messy: "Elec" and "elect" instead of "Electronics" |
+| `Price` | FLOAT | Retail price ($50-$1,500) |
+| `Cost` | FLOAT | ⚠️ Messy: ~5% missing values |
 
-1. **Realized Revenue (Column S):**
-   ```excel
-   =Price * Quantity * (1 - Discount)
-   # Excel Formula in Cell S2:
-   =M2 * O2 * (1 - P2)
-   ```
-2. **Gross Profit (Column T):**
-   ```excel
-   =Revenue - (Cost * Quantity)
-   # Excel Formula in Cell T2:
-   =S2 - (N2 * O2)
-   ```
-3. **Profit Margin %:**
-   ```excel
-   =Profit / Revenue
-   # Excel Formula:
-   =T2 / S2
-   ```
+### Orders (Fact)
+| Column | Type | Notes |
+|--------|------|-------|
+| `OrderID` | INT | Primary Key (10000-14000) |
+| `OrderDate` | DATE | Same as JoinDate (simplified) |
+| `ShipMode` | TEXT | Standard, Express, Same Day |
 
----
+### OrderDetails (Fact Line Items)
+| Column | Type | Notes |
+|--------|------|-------|
+| `Quantity` | INT | 1-5 items per order |
+| `Discount` | FLOAT | ⚠️ Messy: ~70% are NULL (should be 0) |
 
-## 📈 4. Descriptive Statistics & Outlier Detection (Day 2 Focus)
-
-To understand customer distribution and detect anomalous spending behavior, compute descriptive statistics across the customer base:
-
-### A. Measures of Central Tendency & Spread
-| Metric | Excel Formula | TechNova Benchmark Value | Business Interpretation |
-|--------|---------------|--------------------------|-------------------------|
-| **Mean Revenue** | `=AVERAGE('2. Cleaned Data'!S2:S5001)` | `$2,279.72` | Average order transaction size |
-| **Median Revenue** | `=MEDIAN('2. Cleaned Data'!S2:S5001)` | `$1,824.50` | Midpoint spending (resistant to whale buyers) |
-| **Standard Deviation** | `=STDEV.S('2. Cleaned Data'!S2:S5001)` | `$1,465.18` | High variability in order basket sizes |
-| **Variance** | `=VAR.S('2. Cleaned Data'!S2:S5001)` | `2,146,752.4` | Squared dispersion from the mean |
-| **Min / Max Spend** | `=MIN(...)` / `=MAX(...)` | `$48.50` / `$14,850.00` | Full range of single-order transactions |
-
-### B. Outlier Detection using Interquartile Range (IQR)
-1. **First Quartile (Q1 - 25th Percentile):**
-   ```excel
-   =QUARTILE.INC('2. Cleaned Data'!S2:S5001, 1)
-   ```
-2. **Third Quartile (Q3 - 75th Percentile):**
-   ```excel
-   =QUARTILE.INC('2. Cleaned Data'!S2:S5001, 3)
-   ```
-3. **Interquartile Range (IQR):**
-   ```excel
-   =Q3_Cell - Q1_Cell
-   ```
-4. **Outlier Threshold Limits:**
-   - **Upper Outlier Boundary:** `=Q3 + (1.5 * IQR)`
-   - **Lower Outlier Boundary:** `=Q1 - (1.5 * IQR)`
-   *(Any transaction above the upper boundary represents an enterprise/bulk wholesale purchase).*
+### Derived Features (in cleaned data)
+| Column | Type | Formula |
+|--------|------|---------|
+| `Revenue` | FLOAT | `Price × Quantity × (1 - Discount)` |
+| `Profit` | FLOAT | `Revenue - (Cost × Quantity)` |
+| `Days_Since_Last_Order` | INT | Days since last purchase (ML feature) |
+| `Total_Orders` | INT | Total distinct orders (ML feature) |
 
 ---
 
-## 📊 5. Pivot Table Construction (Sheet: `3. Pivot Analysis`)
+## 🚀 Quick Start Guide
 
-Create 4 core Pivot Tables to feed into the executive dashboard:
+### Prerequisites
+- Python 3.10+ installed
+- Jupyter Notebook or VS Code with Jupyter extension
+- Power BI Desktop (Windows)
 
-### 🔹 Pivot Table 1: Category Performance
-- **Source:** `'2. Cleaned Data'!$A$1:$T$5001`
-- **Rows:** `Category`
-- **Values:**
-  - `Sum of Revenue` (Format: Currency `$#,##0`)
-  - `Sum of Profit` (Format: Currency `$#,##0`)
-  - `Average of Discount` (Format: Percentage `0.0%`)
-  - `Count of OrderID` (Format: Number `#,##0`)
-- **Calculated Field:** `Profit Margin = Profit / Revenue` (Format: Percentage `0.0%`)
-
-### 🔹 Pivot Table 2: Monthly Revenue & Order Trend
-- **Rows:** `OrderDate` $\rightarrow$ Right-click $\rightarrow$ **Group by: Years and Months**
-- **Values:**
-  - `Sum of Revenue` (Format: Currency `$#,##0`)
-  - `Count of OrderID` (Format: Number `#,##0`)
-
-### 🔹 Pivot Table 3: Top 15 Customers by Profitability
-- **Rows:** `FullName`
-- **Values:** `Sum of Profit`, `Sum of Revenue`
-- **Filter:** Click Row Labels dropdown $\rightarrow$ **Value Filters $\rightarrow$ Top 10... $\rightarrow$ Top 15 by Sum of Profit**
-
-### 🔹 Pivot Table 4: Regional Geographic Performance
-- **Rows:** `City`
-- **Columns:** `ShipMode`
-- **Values:** `Sum of Revenue`
-
----
-
-## 🎯 6. Executive KPI Summary (Sheet: `4. KPI Summary`)
-
-Build a dynamic KPI summary table using standard Excel aggregation formulas:
-
-```excel
-========================================================================================
-KPI METRIC                       EXCEL FORMULA                           RESULT VALUE
-========================================================================================
-Total Revenue                    =SUM('2. Cleaned Data'!S2:S5001)        $11,398,597.08
-Total Profit                     =SUM('2. Cleaned Data'!T2:T5001)        $4,869,126.93
-Gross Profit Margin (%)          =B4 / B3                                42.72%
-Total Orders (Volume)            =COUNTA('2. Cleaned Data'!G2:G5001)-1   5,000
-Unique Customers                 =COUNTA(UNIQUE('2. Cleaned Data'!A2:A5001)) 1,433
-Average Order Value (AOV)        =AVERAGE('2. Cleaned Data'!S2:S5001)    $2,279.72
-Average Discount Given           =AVERAGE('2. Cleaned Data'!P2:P5001)    3.46%
-Overall Customer Churn Rate      =COUNTIF('2. Cleaned Data'!F:F, 1)/5000 28.92%
-Active Customer Count            =COUNTIF('2. Cleaned Data'!F:F, 0)      872 Customers
-Churned Customer Count           =COUNTIF('2. Cleaned Data'!F:F, 1)      561 Customers
-========================================================================================
+### Step 1: Install Python Dependencies
+```bash
+cd "C:\Users\MOHAMED TAMER\Desktop\SIC\SIC_Bootcamp_TechNova_Project"
+pip install -r requirements.txt
 ```
 
----
-
-## 🖥️ 7. Dashboard Design & Layout (Sheet: `5. Dashboard`)
-
-Construct an executive presentation layout in Sheet `5. Dashboard`:
-
-### 🎨 Visual Layout Map:
-```text
-+---------------------------------------------------------------------------------------+
-|  TECHNOVA RETAIL SALES & PROFITABILITY DASHBOARD                                      |
-+---------------------------------------------------------------------------------------+
-| [ CARD 1 ]          | [ CARD 2 ]          | [ CARD 3 ]          | [ CARD 4 ]          |
-| Total Revenue       | Total Profit        | Profit Margin       | Total Orders        |
-| $11.40M             | $4.87M              | 42.7%               | 5,000               |
-+---------------------+---------------------+---------------------+---------------------+
-| [ CHART 1 ]                               | [ CHART 2 ]                               |
-| Revenue & Profit by Product Category      | Monthly Revenue Trend (2020 - 2023)       |
-| (Clustered Column Chart)                  | (Line Chart with Data Markers)            |
-+-------------------------------------------+-------------------------------------------+
-| [ CHART 3 ]                               | [ SLICERS & TIMELINE CONTROLS ]           |
-| Top 15 Most Profitable Customers          | 🔹 Category Slicer (Multi-Select)         |
-| (Horizontal Bar Chart)                    | 🔹 City / Region Slicer                   |
-|                                           | 🔹 Ship Mode Slicer                       |
-|                                           | 📅 Order Date Timeline Slider             |
-+-------------------------------------------+-------------------------------------------+
+### Step 2: Explore the EDA Notebook
+```bash
+cd day5_python_ml
+jupyter notebook TechNova_Python_EDA.ipynb
 ```
 
-### 🔗 Connecting Slicers to Multiple Pivot Tables:
-1. Insert Slicers for **Category**, **City**, and **ShipMode**.
-2. Right-click each Slicer $\rightarrow$ **Report Connections...** (or Slicer Connections).
-3. Check the boxes for **all 4 Pivot Tables** in `3. Pivot Analysis`.
-4. Now, filtering any slicer will instantly update all KPI cards and charts simultaneously!
+### Step 3: Launch the Churn Prediction Web App
+```bash
+cd day5_python_ml
+streamlit run streamlit_app.py
+```
+This opens a browser window where you can input customer data and get real-time churn predictions.
+
+### Step 4: Build the BI Dashboards
+Navigate to the `day4_bi` folder and follow the detailed instructions in `BI_Development_Guide.md` to build the Power BI dashboard.
 
 ---
 
-## 👨‍🏫 8. Instructor Delivery & Workshop Timing
+## 📈 ML Model Performance
 
-| Session Segment | Duration | Topic & Student Milestone |
-|-----------------|:--------:|---------------------------|
-| **Part 1: Crash Course** | 45 min | Excel UI, absolute references (`$A$1`), text cleaning formulas (`TRIM`, `PROPER`). |
-| **Part 2: Cleaning Lab** | 45 min | Hands-on data cleaning, date parsing, and calculating `Revenue` & `Profit`. |
-| **Break** | 30 min | Rest & Q&A. |
-| **Part 3: Stats & Pivots** | 40 min | Mean/Median spread, IQR outlier detection, creating the 4 Pivot Tables. |
-| **Part 4: Dashboard Build** | 50 min | Designing KPI cards, Pivot Charts, formatting palettes, and linking Slicers. |
+| Metric | Value |
+|--------|-------|
+| **Algorithm** | Logistic Regression |
+| **Accuracy** | 81.88% |
+| **AUC-ROC** | 0.8815 |
+| **Features** | Age, Total_Spent, Days_Since_Last_Order, Total_Orders, Avg_Discount, Avg_Profit |
+| **Scaling** | StandardScaler |
+| **Training Config** | random_state=42, max_iter=500 |
 
 ---
 
-### 💡 Golden Rules for Students:
-- ❌ **Never type raw numbers inside formulas** — always reference cell headers or named ranges.
-- 🔒 **Always lock lookup ranges** using `F4` (`$A$2:$T$5001`) to avoid range shifting during autofill.
-- 🎯 **80/20 Rule:** 80% of data errors come from messy text and improper date formats; master `TRIM`, `PROPER`, and `DATEVALUE`.
+## 🎓 Instructor Notes: The "Baton Pass" Technique
+
+To make the bootcamp feel like one continuous journey rather than 5 disjointed workshops:
+
+| Day | Opening Line | Closing "Baton Pass" |
+|-----|-------------|---------------------|
+| **Day 1** | *"TechNova is losing money. Let's clean their data and find out why."* | *"We built a dashboard, but we still don't know WHY profits are dropping. Tomorrow: Statistics."* |
+| **Day 2** | *"Yesterday we cleaned the data. Today we interrogate it."* | *"Excel is great, but what if TechNova scales to 5 million rows? Tomorrow: SQL."* |
+| **Day 3** | *"Spreadsheets can't handle big data. Let's talk to databases directly."* | *"We have answers in SQL, but executives don't read code. Tomorrow: BI dashboards."* |
+| **Day 4** | *"Yesterday's SQL answers become today's interactive dashboards."* | *"We know what HAPPENED. But can we predict what WILL happen? Tomorrow: Python & ML."* |
+| **Day 5** | *"We've cleaned, queried, and visualized. Now we PREDICT the future."* | *"You are now full-stack Data Analysts. Tomorrow: prove it in the Hackathon."* |
+
+---
+
+*Prepared by: SIC Head of Data Analysis | Science in Code Community*
