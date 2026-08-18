@@ -1,0 +1,22 @@
+{
+    "model_name": "Logistic Regression",
+    "accuracy": 0.818815331010453,
+    "auc_roc": 0.881530612244898,
+    "features": [
+        "Age",
+        "Total_Spent",
+        "Days_Since_Last_Order",
+        "Total_Orders",
+        "Avg_Discount",
+        "Avg_Profit"
+    ],
+    "intercept": -0.5288031838180328,
+    "coefficients": {
+        "Age": 0.03821326035955295,
+        "Total_Spent": -0.7270719019178575,
+        "Days_Since_Last_Order": 1.3790246761181655,
+        "Total_Orders": -0.17643580313791393,
+        "Avg_Discount": 0.07014583408189069,
+        "Avg_Profit": 0.39364261277920726
+    }
+}
