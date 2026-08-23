@@ -109,7 +109,7 @@ To understand customer distribution and detect anomalous spending behavior, comp
 
 Create 4 core Pivot Tables to feed into the executive dashboard:
 
-### 🔹 Pivot Table 1: Category Performance
+### 🔹 Pivot Table 1: Revenue & Profit by Category
 - **Source:** `'2. Cleaned Data'!$A$1:$T$5001`
 - **Rows:** `Category`
 - **Values:**
