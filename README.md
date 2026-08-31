@@ -1,4 +1,3 @@
-[README.md](https://github.com/user-attachments/files/31162522/README.md)
 # 🚀 TechNova Retail & Customer Churn Analytics
 ### Science in Code (SIC) Bootcamp — End-to-End Data Analysis Capstone Project
 
