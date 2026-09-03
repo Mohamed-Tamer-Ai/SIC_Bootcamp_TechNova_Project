@@ -1,0 +1,195 @@
+![Science in Code (SIC) Logo](https://raw.githubusercontent.com/Mohamed-Tamer-Ai/SIC_Bootcamp_TechNova_Project/main/science-in-code-logo.png)
+
+# 🚀 TechNova Retail & Customer Churn Analytics
+### Science in Code (SIC) Bootcamp — End-to-End Data Analysis Capstone Project
+
+---
+
+## Table of Contents
+- [Overview](#overview)
+- [Business Problem](#the-business-problem)
+- [Project Mission](#project-mission)
+- [Bootcamp Curriculum](#bootcamp-curriculum--day-by-day-mapping)
+- [Project Structure](#project-directory-structure)
+- [Dataset Schema](#dataset-schema--data-dictionary)
+- [Machine Learning Performance](#machine-learning-model-performance)
+- [Quick Start](#quick-start-guide)
+- [Instructor Notes](#instructor-delivery-notes-the-baton-pass-method)
+
+---
+
+## Overview
+
+**TechNova** is a rapidly growing omni-channel electronics and consumer technology retailer operating across 6 major cities in Egypt. This capstone project demonstrates an end-to-end analytics workflow covering data cleaning, statistical analysis, SQL, Power BI, Python EDA, machine learning, and a Streamlit web app.
+
+---
+
+## The Business Problem
+
+Executive leadership at TechNova identified three major challenges:
+
+- 📉 A noticeable **drop in profitability** across specific product lines despite steady revenue growth.
+- 🚪 A **rising customer churn rate** (~29% of customers haven't made a purchase in over 6 months).
+- 🎯 The absence of an integrated, data-driven system to **predict and prevent** customer churn before it occurs.
+
+### Project Mission
+1. **Clean & Standardize** 5,000 messy transactional records.
+2. **Perform Statistical Analysis** to detect anomalies, quantify variance, and compute core business KPIs.
+3. **Query the Relational Database** using advanced SQL to uncover behavioral insights.
+4. **Build Interactive Power BI Dashboards** with a normalized Star Schema and DAX time intelligence.
+5. **Train a Logistic Regression Model** to predict customer churn probability.
+6. **Deploy an Interactive Streamlit Web App** for real-time risk scoring and batch data analysis.
+
+---
+
+## Bootcamp Curriculum & Day-by-Day Mapping
+
+This project serves as the unified capstone case study across the 6-day SIC Data Analysis Bootcamp:
+
+| Day | Track Module | Key Deliverable | Core Tools & Skills |
+|:---:|:---|:---|:---|
+| **Day 1** | **Foundations & Excel Mastery** | [`TechNova_Excel.xlsx`](Day_1%262_Excel/TechNova_Excel.xlsx) | Data cleaning, `PROPER`/`TRIM`, `IF`, `XLOOKUP`, Pivot Tables, Charts, Slicers |
+| **Day 2** | **Statistics & Business Metrics** | `TechNova_Excel.xlsx` (KPI sheet) | Mean, Median, Mode, StdDev, IQR Outliers, AOV, Churn Rate, Margins |
+| **Day 3** | **SQL for Data Analysis** | [`TechNova_Queries.sql`](Day_3_SQL/TechNova_Queries.sql) | `SELECT`, `WHERE`, `GROUP BY`, `HAVING`, `JOIN`s, CTEs, Window Functions |
+| **Day 4** | **Business Intelligence (BI)** | Power BI Dashboards (`.pbix`) | Star Schema Data Modeling, DAX Measures, Slicers, Interactive Reporting |
+| **Day 5** | **Python, EDA & Machine Learning** | [`TechNova_Python_EDA.ipynb`](Day_5_Python_ML/TechNova_Python_EDA.ipynb) + [`streamlit_app.py`](Day_5_Python_ML/streamlit_app.py) | Pandas, Seaborn, Feature Engineering, Logistic Regression |
+| **Day 6** | **Hackathon & Presentations** | Executive Presentations | End-to-End Delivery: Data → Insight → Business Action |
+
+---
+
+## Project Directory Structure
+
+```text
+SIC_Bootcamp_TechNova_Project/
+├── Datasets/
+│   ├── dataset_raw.csv
+│   └── dataset_cleaned.csv
+├── Day_1&2_Excel/
+│   ├── TechNova_Excel.xlsx
+│   └── Excel_Development_Guide.md
+├── Day_3_SQL/
+│   └── TechNova_Queries.sql
+├── Day_4_BI/
+│   ├── TechNova_PowerBI_V1.pbix
+│   ├── TechNova_PowerBI_V2.pbix
+│   └── BI_Development_Guide.md
+├── Day_5_Python_ML/
+│   ├── TechNova_Python_EDA.ipynb
+│   ├── streamlit_app.py
+│   └── models/
+│       ├── churn_model.pkl
+│       ├── scaler.pkl
+│       └── model_metadata.json
+├── README.md
+└── requirements.txt
+```
+
+---
+
+## Dataset Schema & Data Dictionary
+
+The dataset represents a denormalized enterprise retail schema consisting of 5,000 transactional rows.
+
+### Customers (Dimension)
+| Column | Type | Description / Anomalies |
+|---|:---:|---|
+| `CustomerID` | `INT` | Unique identifier per customer (PK: 1000–2500) |
+| `FullName` | `TEXT` | Inconsistent casing and extra leading/trailing whitespace |
+| `Age` | `INT` | Contains unrealistic outlier values (<18 or >100) |
+| `City` | `TEXT` | Customer location (Cairo, Alexandria, Giza, Mansoura, Luxor, Aswan) |
+| `JoinDate` | `DATE` | Mixed date formats (`MM/DD/YYYY` vs. `DD-MM-YYYY`) |
+| `Churn` | `BINARY` | Target label: `1` = Churned (inactive), `0` = Active |
+
+### Products (Dimension)
+| Column | Type | Description / Anomalies |
+|---|:---:|---|
+| `ProductID` | `INT` | Unique product identifier (PK: 101–149) |
+| `ProductName` | `TEXT` | Product SKU name (e.g., `Product_135`) |
+| `Category` | `TEXT` | Typographical variations (e.g., `Elec`, `elect` → `Electronics`) |
+| `Price` | `FLOAT` | Retail unit price ($50.00 – $1,500.00) |
+| `Cost` | `FLOAT` | ~5% missing values (requires median imputation) |
+
+### Orders & Details (Fact Records)
+| Column | Type | Description / Anomalies |
+|---|:---:|---|
+| `OrderID` | `INT` | Unique transaction ID (10000–14000) |
+| `OrderDate` | `DATE` | Date of purchase transaction |
+| `ShipMode` | `TEXT` | Delivery speed (`Standard`, `Express`, `Same Day`) |
+| `Quantity` | `INT` | Basket items ordered (1–5 items) |
+| `Discount` | `FLOAT` | ~70% nulls (imputed as `0.0` for full-price purchases) |
+
+### Engineered & Calculated Metrics
+| Derived Column | Type | Formula / Logic |
+|---|:---:|---|
+| `Revenue` | `FLOAT` | `Price × Quantity × (1 - Discount)` |
+| `Profit` | `FLOAT` | `Revenue - (Cost × Quantity)` |
+| `Profit_Margin` | `FLOAT` | `Profit / Revenue` |
+| `Days_Since_Last_Order` | `INT` | Days elapsed since most recent transaction |
+| `Total_Orders` | `INT` | Lifetime order count per customer |
+
+---
+
+## Machine Learning Model Performance
+
+The churn prediction model is built using Logistic Regression and StandardScaler to ensure interpretability and robust generalization.
+
+| Metric | Score / Configuration |
+|---|:---:|
+| **Algorithm** | Logistic Regression (`sklearn.linear_model.LogisticRegression`) |
+| **Optimization Solver** | L-BFGS (`max_iter=500, random_state=42`) |
+| **Preprocessing** | `StandardScaler` (Z-score normalization) |
+| **Test Accuracy** | **81.88%** |
+| **AUC-ROC Score** | **0.8815** |
+| **F1-Score** | **0.7476** |
+| **Feature Inputs (6)** | `Age`, `Total_Spent`, `Days_Since_Last_Order`, `Total_Orders`, `Avg_Discount`, `Avg_Profit` |
+| **Target Variable** | `Churn` (`1` = Churned, `0` = Active) |
+
+---
+
+## Quick Start Guide
+
+### Prerequisites
+- Python 3.10+ installed
+- Power BI Desktop (for Day 4 `.pbix` files)
+- Microsoft Excel 2016+ or Microsoft 365
+
+### Installation
+```bash
+git clone https://github.com/ScienceInCode/SIC_Bootcamp_TechNova_Project.git
+cd SIC_Bootcamp_TechNova_Project
+pip install -r requirements.txt
+```
+
+### Launch the Streamlit App
+```bash
+cd Day_5_Python_ML
+streamlit run streamlit_app.py
+```
+
+### Open the EDA Notebook
+```bash
+cd Day_5_Python_ML
+jupyter notebook TechNova_Python_EDA.ipynb
+```
+
+### Development Guides
+- **Excel Guide (Day 1 & 2):** [`Day_1&2_Excel/Excel_Development_Guide.md`](Day_1%262_Excel/Excel_Development_Guide.md)
+- **Power BI Guide (Day 4):** [`Day_4_BI/BI_Development_Guide.md`](Day_4_BI/BI_Development_Guide.md)
+
+---
+
+## Instructor Delivery Notes: The "Baton Pass" Method
+
+To provide students with a unified narrative across the 6-day bootcamp, instructors can use the Baton Pass technique to seamlessly bridge each day to the next.
+
+| Day | Opening Transition | Closing "Baton Pass" |
+|---|---|---|
+| **Day 1** | "TechNova is experiencing profit drops. Let's clean their raw data and build a sales dashboard to see what's happening." | "We organized the numbers, but we still don't know why profit is dropping." |
+| **Day 2** | "Yesterday we cleaned the data. Today we interrogate it with descriptive statistics and business metrics." | "Excel is powerful for 5,000 rows, but what if TechNova scales to 5 million?" |
+| **Day 3** | "Spreadsheets hit scale limits. Today we talk directly to databases with SQL." | "We answered deep business questions with SQL, but executives want visual stories. Tomorrow: Power BI." |
+| **Day 4** | "Yesterday's SQL queries become today's dynamic executive dashboards in Power BI." | "We know what happened in the past. But can we predict who will leave next? Tomorrow: Python & ML." |
+| **Day 5** | "We've cleaned, queried, and visualized. Today we build a live ML model to predict customer churn." | "You now have the full modern data stack. Tomorrow: Hackathon & Executive Presentations." |
+
+---
+
+*Developed for the **Science in Code (SIC)** Community | Data Analysis Track*
