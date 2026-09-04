@@ -30,7 +30,7 @@ This project serves as the **unified capstone case study** across the 6-day inte
 | **Day 2** | **Statistics & Business Metrics** | `TechNova_Excel.xlsx` (KPI sheet) | Mean, Median, Mode, StdDev, IQR Outliers, AOV, Churn Rate, Margins |
 | **Day 3** | **SQL for Data Analysis** | [`TechNova_Queries.sql`](Day_3_SQL/TechNova_Queries.sql) | `SELECT`, `WHERE`, `GROUP BY`, `HAVING`, `JOIN`s, CTEs, Window Functions |
 | **Day 4** | **Business Intelligence (BI)** | Power BI Dashboards (`.pbix`) | Star Schema Data Modeling, DAX Measures, Slicers, Interactive Reporting |
-| **Day 5** | **Python, EDA & Machine Learning** | [`TechNova_Python_EDA.ipynb`](Day_5_Python_ML/TechNova_Python_EDA.ipynb) + [`streamlit_app.py`](Day_5_Python_ML/streamlit_app.py) | Pandas, Seaborn, Feature Engineering, Logistic Regression, Streamlit Web App |
+| **Day 5** | **Python, EDA & Machine Learning** | [`TechNova_Python_EDA.ipynb`](Day_5_Python_ML/TechNova_Python_EDA.ipynb) + [`streamlit_app.py`](Day_5_Python_ML/streamlit_app.py) | Pandas, Seaborn, Scikit-Learn, Logistic Regression |
 | **Day 6** | **Hackathon & Presentations** | Executive Presentations | End-to-End Delivery: Data $\rightarrow$ Insight $\rightarrow$ Business Action |
 
 ---
@@ -49,7 +49,8 @@ SIC_Bootcamp_TechNova_Project/
 │   └── Excel_Development_Guide.md      # Step-by-step development & instructor guide for Excel
 │
 ├── Day_3_SQL/
-│   └── TechNova_Queries.sql            # 7 SQL queries (Basics, Aggregations, JOINs, CTEs, Window Funcs)
+│   ├── TechNova_Queries.sql            # 7 SQL queries (Basics, Aggregations, JOINs, CTEs, Window Funcs)
+│   └── SQL_Development_Guide.md        # Step-by-step SQL development guide & query documentation
 │
 ├── Day_4_BI/
 │   ├── TechNova_PowerBI_V1.pbix        # Power BI Baseline Dashboard
@@ -136,6 +137,7 @@ The churn prediction model is built using **Logistic Regression** and **Standard
 - Python 3.10+ installed
 - Power BI Desktop (for Day 4 `.pbix` files)
 - Microsoft Excel 2016+ or Microsoft 365
+- SQL Database (SQLite, MySQL, PostgreSQL, or SQL Server)
 
 ### 2. Installation
 Clone the repository and install all required Python libraries:
@@ -159,6 +161,7 @@ jupyter notebook TechNova_Python_EDA.ipynb
 
 ### 5. Accessing Development Guides
 - **Excel Guide (Day 1 & 2):** [`Day_1&2_Excel/Excel_Development_Guide.md`](Day_1%262_Excel/Excel_Development_Guide.md)
+- **SQL Guide (Day 3):** [`Day_3_SQL/SQL_Development_Guide.md`](Day_3_SQL/SQL_Development_Guide.md)
 - **Power BI Guide (Day 4):** [`Day_4_BI/BI_Development_Guide.md`](Day_4_BI/BI_Development_Guide.md)
 
 ---
@@ -169,11 +172,11 @@ To provide students with a unified narrative across the 6-day bootcamp, instruct
 
 | Day | Opening Transition | Closing "Baton Pass" |
 |---|---|---|
-| **Day 1** | *"TechNova is experiencing profit drops. Let's clean their raw data and build a sales dashboard to see what's happening."* | *"We organized the numbers, but we still don't know WHY profits fluctuate. Tomorrow: Statistics & Outlier Detection."* |
-| **Day 2** | *"Yesterday we cleaned the data. Today we interrogate it with descriptive statistics and business metrics."* | *"Excel is powerful for 5,000 rows, but what if TechNova scales to 5 million records? Tomorrow: SQL Databases."* |
-| **Day 3** | *"Spreadsheets hit scale limits. Today we talk directly to databases with SQL."* | *"We answered deep business questions with SQL, but executives want visual stories. Tomorrow: Power BI Dashboards."* |
+| **Day 1** | *"TechNova is experiencing profit drops. Let's clean their raw data and build a sales dashboard to see what's happening."* | *"We organized the numbers, but we still don't know WHY profits are falling. Tomorrow we'll analyze the data with statistics."* |
+| **Day 2** | *"Yesterday we cleaned the data. Today we interrogate it with descriptive statistics and business metrics."* | *"Excel is powerful for 5,000 rows, but what if TechNova scales to 5 million? Tomorrow: SQL & relational databases."* |
+| **Day 3** | *"Spreadsheets hit scale limits. Today we talk directly to databases with SQL."* | *"We answered deep business questions with SQL, but executives want visual stories. Tomorrow: Power BI dashboards."* |
 | **Day 4** | *"Yesterday's SQL queries become today's dynamic executive dashboards in Power BI."* | *"We know what HAPPENED in the past. But can we PREDICT who will leave next? Tomorrow: Python & Machine Learning."* |
-| **Day 5** | *"We've cleaned, queried, and visualized. Today we build a live ML model to predict customer churn."* | *"You now have the full modern data stack. Tomorrow: Hackathon & Executive Presentations!"* |
+| **Day 5** | *"We've cleaned, queried, and visualized. Today we build a live ML model to predict customer churn."* | *"You now have the full modern data stack. Tomorrow: Hackathon & Executive Presentations."* |
 
 ---
 
