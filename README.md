@@ -1,3 +1,5 @@
+![Science in Code (SIC) Logo](https://raw.githubusercontent.com/Mohamed-Tamer-Ai/SIC_Bootcamp_TechNova_Project/main/science-in-code-logo.png)
+
 # 🚀 TechNova Retail & Customer Churn Analytics
 ### Science in Code (SIC) Bootcamp — End-to-End Data Analysis Capstone Project
 
