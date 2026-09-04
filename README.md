@@ -1,4 +1,4 @@
-![Science in Code (SIC) Logo](https://www.facebook.com/p/Science-in-code-Benha-University-61575707175324/)
+![Science in Code (SIC) Logo](<img width="447" height="447" alt="image" src="https://github.com/user-attachments/assets/115d579c-d67f-45f9-8cf4-b7185bc7f6db" />)
 
 # 🚀 TechNova Retail & Customer Churn Analytics
 ### Science in Code (SIC) Bootcamp — End-to-End Data Analysis Capstone Project
