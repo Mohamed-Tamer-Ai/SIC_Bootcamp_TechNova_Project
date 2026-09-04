@@ -1,4 +1,4 @@
-![Science in Code (SIC) Logo](<img width="447" height="447" alt="image" src="https://github.com/user-attachments/assets/115d579c-d67f-45f9-8cf4-b7185bc7f6db" />)
+<img width="2000" height="2000" alt="image" src="https://github.com/user-attachments/assets/a752c8e3-f948-4bd5-8294-0e2c7e0dc3e1" />
 
 # 🚀 TechNova Retail & Customer Churn Analytics
 ### Science in Code (SIC) Bootcamp — End-to-End Data Analysis Capstone Project
