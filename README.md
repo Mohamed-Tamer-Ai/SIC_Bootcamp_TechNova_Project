@@ -123,7 +123,6 @@ The churn prediction model is built using **Logistic Regression** and **Standard
 | Metric | Score / Configuration |
 |---|:---:|
 | **Algorithm** | **Logistic Regression** (`sklearn.linear_model.LogisticRegression`) |
-| **Optimization Solver** | L-BFGS (`max_iter=500, random_state=42`) |
 | **Preprocessing** | `StandardScaler` (Z-score normalization: $\mu=0, \sigma=1$) |
 | **Test Accuracy** | **81.88%** |
 | **AUC-ROC Score** | **0.8815** |
